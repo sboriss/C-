@@ -35,10 +35,17 @@ Create hello-world-function:
 ```{Rcpp, hwCpp}
 #include <Rcpp.h>
 
+using namespace Rcpp;
+
 // [[Rcpp::export]]
 int hw() {
-//Rcout << "HELLO WORLD!!!";
+Rcout << "HELLO WORLD!!!";
     return 0;
+}
+
+// [[Rcpp::export]]
+void hw1() {
+Rcout << "HELLO WORLD!!!";
 }
 ```
 
@@ -46,9 +53,25 @@ Test hello-world-function:
 
 ```{r hwTest, dependson='hwCpp'}
 hw()
+hw1()
 ```
 
+```{Rcpp, showvalueCpp}
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>   // as we use RcppArmadillo below
+                             // this first example use only Rcpp 
 
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+void showValue(double x) {
+    Rcout << "The value is " << x << std::endl;
+}
+```
+
+```{r showvalueTest, dependson='showvalueCpp'}
+showValue(1.4) 
+```
 # Call Rcpp from knitr
 `
 Code is from https://github.com/yihui/knitr-examples/blob/master/029-engine-Rcpp.Rmd.
